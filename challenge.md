@@ -30,4 +30,8 @@ docker run -p 127.0.0.1:8000:8000 task:latest
 ```
 
 # How to make request
+
+>[!IMPORTANT]
+> You must Register and Login, this will automatically set the token for the other requests
+
 Inside of this repository there is a Collection V2 from Postman that you can use it, to check the available request, examples of the payload and execute them.

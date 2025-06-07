@@ -12,11 +12,21 @@
 				{
 					"name": "CREATE label",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MzI4NTU1LCJpYXQiOjE3NDkzMjQ5NTUsImp0aSI6IjE2M2FhZDEzMWQ1YjRhNGM5NTk5ZWVmNDY1ZWE0NDI5IiwidXNlcl9pZCI6MX0.Ui9oirKyggQHM-91Eu53yUqvgjD9wgPkl_VSluNShWU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Testing label\"\r\n}",
+							"raw": "{\r\n    \"name\": \"prueba\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,6 +54,16 @@
 				{
 					"name": "GET all Labels",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -67,6 +87,16 @@
 				{
 					"name": "GET specific label",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -91,11 +121,21 @@
 				{
 					"name": "PUT specific label",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n \"name\": \"prueba\"\r\n}",
+							"raw": "{\r\n \"name\": \"prueba 23\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -124,6 +164,16 @@
 				{
 					"name": "DELETE specific label",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -157,6 +207,16 @@
 				{
 					"name": "GET all tasks per label",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -187,6 +247,16 @@
 				{
 					"name": "CREATE Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -219,6 +289,16 @@
 				{
 					"name": "GET all Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -242,6 +322,16 @@
 				{
 					"name": "GET specific Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -266,11 +356,21 @@
 				{
 					"name": "PUT specific Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Isaac task 1\",\r\n    \"description\": \"Isaac description\",\r\n    \"is_completed\": true\r\n}",
+							"raw": "{\r\n    \"title\": \"Isaac task is done\",\r\n    \"description\": \"Isaac description\",\r\n    \"is_completed\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -299,6 +399,16 @@
 				{
 					"name": "DELETE specific Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -335,6 +445,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -364,11 +484,26 @@
 				{
 					"name": "Link label and task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"task\": 2,\r\n    \"label\": 2\r\n}"
+							"raw": "{\r\n    \"task\": 2,\r\n    \"label\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/task/2/labels",
@@ -391,10 +526,29 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Unlink label and task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"label\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/task/2/labels",
 							"protocol": "http",
@@ -455,6 +609,20 @@
 		},
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json().access)\r",
+							"pm.collectionVariables.set(\"token\", pm.response.json().access)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -517,6 +685,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }

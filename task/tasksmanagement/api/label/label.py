@@ -81,7 +81,7 @@ class LabelDetailAPIView(RetrieveUpdateDestroyAPIView):
     def put(self, request: Request, *args, **kwargs) -> Response:
         label = self.get_object()
 
-        serializer = DetailedLabelSerializer(label, data=request.data, partial=True)
+        serializer = CreateLabelSerializer(label, data=request.data, partial=True)
         try:
             if serializer.is_valid():
                 serializer.update(label, request.data)
