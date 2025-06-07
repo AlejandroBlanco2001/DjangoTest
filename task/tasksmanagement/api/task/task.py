@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from tasksmanagement.api.task.permissions import CanManipulateTask
-from tasksmanagement.models import Task
+from tasksmanagement.models import Task, Label
 from rest_framework.request import Request
 from tasksmanagement.serializers import DetailedTaskSerializer, CreateTaskSerializer, DetailedTaskLabelSerializer, CreateTaskLabelSerializer
 from rest_framework.response import Response
@@ -136,9 +136,15 @@ class TaskLabelListCreateAPIView(ListCreateAPIView):
         
     def delete(self, request: Request, *args, **kwargs) -> Response:
         task = self.get_object()
-        label = self.kwargs.get('label_pk')
+        label_pk = self.request.data.get('label')
 
-        logger.info(f"Deleting label: {label.pk}")
+        label = get_object_or_404(Label, id=label_pk)
+
+        logger.info(f"Deleting label: {label.pk} from task: {task.pk}")
+
+        if label not in task.label.all():
+            return Response({'Label is not associated with this task'}, status=status.HTTP_400_BAD_REQUEST)
+        
         task.label.remove(label)
         task.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
