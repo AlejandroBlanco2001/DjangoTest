@@ -3,7 +3,7 @@
 cd /app/task
 
 # Prepare the migrations
-python manage.py makemigrations taskmanagement
+python manage.py makemigrations tasksmanagement
 
 # Run the migrations
 python manage.py migrate
