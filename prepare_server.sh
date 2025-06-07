@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /app/task
+
 # Prepare the migrations
 python manage.py makemigrations taskmanagement
 
