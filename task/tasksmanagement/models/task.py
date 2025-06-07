@@ -28,7 +28,10 @@ class Task(TimeStampedModel, SoftDeleteModel):
     is_completed = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    label = models.ManyToManyField("Label", related_name='tasks')
+    label = models.ManyToManyField(
+        "Label", 
+        related_name='tasks'
+    )
 
     class Meta:
         constraints = [

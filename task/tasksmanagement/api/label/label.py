@@ -19,7 +19,7 @@ class LabelListCreateAPIView(ListCreateAPIView):
     serializer_class = DetailedLabelSerializer
 
     def get_queryset(self) -> QuerySet[Label]:
-        return Label.label.user_labels(self.request.user).prefetch_related('tasks').sort_by('name')
+        return Label.label.user_labels(self.request.user).order_by('name')
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()
@@ -27,7 +27,11 @@ class LabelListCreateAPIView(ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request: Request, *args, **kwargs) -> Response:
-        serializer = CreateLabelSerializer(data=request.data)
+        context = {
+            "request": self.request,
+        }
+
+        serializer = CreateLabelSerializer(data=request.data, context=context)
         try:
             if serializer.is_valid():
                 serializer.save()
