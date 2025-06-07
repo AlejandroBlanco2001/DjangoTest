@@ -1,3 +1,3 @@
-from .task import DetailedTaskSerializer, CreateTaskSerializer
+from .task import DetailedTaskSerializer, CreateTaskSerializer, DetailedTaskLabelSerializer, CreateTaskLabelSerializer
 
-__all__ = ['DetailedTaskSerializer', 'CreateTaskSerializer']
+__all__ = ['DetailedTaskSerializer', 'CreateTaskSerializer', 'DetailedTaskLabelSerializer', 'CreateTaskLabelSerializer']

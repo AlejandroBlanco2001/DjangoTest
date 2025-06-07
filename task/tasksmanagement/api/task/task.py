@@ -2,9 +2,9 @@ from django.db import IntegrityError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from tasksmanagement.api.task.permissions import CanManipulateTask
-from tasksmanagement.models import Task
+from tasksmanagement.models import Task, Label
 from rest_framework.request import Request
-from tasksmanagement.serializers import DetailedTaskSerializer, CreateTaskSerializer
+from tasksmanagement.serializers import DetailedTaskSerializer, CreateTaskSerializer, DetailedTaskLabelSerializer, CreateTaskLabelSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import QuerySet
@@ -93,3 +93,47 @@ class TaskDetailAPIView(RetrieveUpdateDestroyAPIView):
         except Exception as e:
             logger.error(f'Error updating task: {e}')
             return Response({'There was an error updating the task, please try again later'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TaskLabelListCreateAPIView(ListCreateAPIView):
+    """
+    API View to list and create labels for a task
+    """
+    permission_classes = [IsAuthenticated, CanManipulateTask]
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self) -> QuerySet[Task]:
+        return Task.task.user_tasks(self.request.user).prefetch_related('label').order_by('title')
+    
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        serializer = DetailedTaskLabelSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+    
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        context = {
+            "request": self.request,
+        }
+
+        serializer = CreateTaskLabelSerializer(data=request.data, context=context, partial=True)
+
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'Task paired with label'}, status=status.HTTP_201_CREATED)
+            else:
+                logger.error(f'Error pairing label: {serializer.errors}')
+                return Response({'There was an error pairing label: One or more fields are missing'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f'Error pairing label: {e}')
+            return Response({'There was an error pairing label, please try again later'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        task = self.get_object()
+        label = self.kwargs.get('label_pk')
+
+        logger.info(f"Deleting label: {label.pk}")
+        task.label.remove(label)
+        task.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

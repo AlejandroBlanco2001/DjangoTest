@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from tasksmanagement.models import Task
+from tasksmanagement.serializers import DetailedLabelSerializer
+from tasksmanagement.models import Task, Label
 
 class DetailedTaskSerializer(serializers.ModelSerializer):
     """ Serializer for detailed label information """
@@ -26,3 +27,35 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = ['title', 'description', 'owner']
         read_only_fields = ['owner']
+
+class DetailedTaskLabelSerializer(DetailedTaskSerializer):
+    """ Serializer for detailed task label information """
+    label = DetailedLabelSerializer(many=True)
+
+    class Meta:
+        model = Task
+        fields = ['pk', 'title', 'description', 'is_completed', 'owner', 'created_at', 'updated_at', 'label']
+        read_only_fields = ['owner', 'created_at', 'updated_at', 'label']
+
+
+class CreateTaskLabelSerializer(serializers.ModelSerializer):
+    """ Serializer for connection a task with a label """
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.task.all(), required=True)
+    label = serializers.PrimaryKeyRelatedField(queryset=Label.label.all(), required=True)
+    
+    def validate_label(self, value: Label) -> Label:
+        if value.owner != self.context['request'].user:
+            raise serializers.ValidationError({'label': 'You are not the owner of this label'})
+        return value
+
+    def save(self, validated_data: dict) -> Task:
+        task = validated_data['task']
+        label = validated_data['label']
+        task.label  .add(label)
+        task.save()
+        return task
+
+    class Meta:
+        model = Task
+        fields = ['task', 'label']
+        read_only_fields = ['task', 'label']
