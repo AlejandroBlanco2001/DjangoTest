@@ -1,7 +1,6 @@
 # How to run it
 
 1. Docker
-    > [!IMPORTANT]
     > To run this, you must have Docker installed in your machine
 
     1. You must clone the repository and move to the cloned repository:
@@ -17,7 +16,6 @@
     docker run -p 127.0.0.1:8000:8000 task:latest
     ```
 2. Without Docker
-    > [!IMPORTANT]
     > To run this, you must have Python installed
 
     1. You must clone the repository and move to the cloned repository:
@@ -60,8 +58,6 @@
     - POST To register (api/auth/login)
 
 # How to make request
-
->[!IMPORTANT]
 > You must Register and Login, this will automatically set the token for the other requests
 
 Inside of this repository there is a Collection V2 from Postman that you can use it, to check the available request, examples of the payload and execute them.
