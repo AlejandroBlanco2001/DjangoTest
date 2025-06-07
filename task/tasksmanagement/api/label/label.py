@@ -23,7 +23,7 @@ class LabelListCreateAPIView(ListCreateAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self) -> QuerySet[Label]:
-        return Label.label.user_labels(self.request.user).order_by('name')
+        return Label.objects.user_labels(self.request.user).order_by('name')
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()

@@ -40,8 +40,8 @@ class DetailedTaskLabelSerializer(DetailedTaskSerializer):
 
 class CreateTaskLabelSerializer(serializers.ModelSerializer):
     """ Serializer for connection a task with a label """
-    task = serializers.PrimaryKeyRelatedField(queryset=Task.task.all(), required=True)
-    label = serializers.PrimaryKeyRelatedField(queryset=Label.label.all(), required=True)
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all(), required=True)
+    label = serializers.PrimaryKeyRelatedField(queryset=Label.objects.all(), required=True)
     
     def validate_label(self, value: Label) -> Label:
         if value.owner != self.context['request'].user:

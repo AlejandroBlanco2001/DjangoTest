@@ -16,7 +16,7 @@ class Label(TimeStampedModel, SoftDeleteModel):
         name: str
         owner: User
 
-    label = LabelManager()
+    objects = LabelManager()
 
     name = models.CharField(null=False, max_length=255)    
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -19,7 +19,7 @@ class Task(TimeStampedModel, SoftDeleteModel):
         is_completed: bool
         owner: User
 
-    task = TaskManager()
+    objects = TaskManager()
 
     title = models.CharField(null=False, max_length=255) 
     description = models.TextField(null=False)

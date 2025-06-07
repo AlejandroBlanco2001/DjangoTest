@@ -22,7 +22,7 @@ class TaskListCreateAPIView(ListCreateAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self) -> QuerySet[Task]:
-        return Task.task.user_tasks(self.request.user).order_by('title')
+        return Task.objects.user_tasks(self.request.user).order_by('title')
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()
@@ -103,7 +103,7 @@ class TaskLabelListCreateAPIView(ListCreateAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self) -> QuerySet[Task]:
-        return Task.task.user_tasks(self.request.user).prefetch_related('label').order_by('title')
+        return Task.objects.user_tasks(self.request.user).prefetch_related('label').order_by('title')
     
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()
