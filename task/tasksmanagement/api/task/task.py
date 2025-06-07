@@ -11,6 +11,7 @@ from django.db.models import QuerySet
 from logging import getLogger
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import serializers
 
 logger = getLogger(__name__)
 
@@ -120,13 +121,16 @@ class TaskLabelListCreateAPIView(ListCreateAPIView):
 
         try:
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(validated_data=serializer.validated_data)
                 return Response({'Task paired with label'}, status=status.HTTP_201_CREATED)
             else:
                 logger.error(f'Error pairing label: {serializer.errors}')
                 return Response({'There was an error pairing label: One or more fields are missing'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error(f'Error pairing label: {e}')
+            if isinstance(e, serializers.ValidationError):
+                return Response({'There was an error pairing label: ' + e.detail['label']}, status=status.HTTP_400_BAD_REQUEST)
+
             return Response({'There was an error pairing label, please try again later'}, status=status.HTTP_400_BAD_REQUEST)
         
     def delete(self, request: Request, *args, **kwargs) -> Response:
