@@ -1,3 +1,3 @@
-from .label import DetailedLabelSerializer
+from .label import DetailedLabelSerializer, CreateLabelSerializer
 
-__all__ = ['DetailedLabelSerializer']
+__all__ = ['DetailedLabelSerializer', 'CreateLabelSerializer']
