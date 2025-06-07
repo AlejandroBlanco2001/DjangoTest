@@ -9,6 +9,9 @@ from managers import TaskManager
 class Task(models.Model):
 
     task = TaskManager()
+
+    # The combination of the title and owner should be unique
+    pk = models.CompositePrimaryKey("title", "owner")
     title = models.CharField(null=False, max_length=255) 
     description = models.TextField(null=False)
     is_completed = models.BooleanField(default=False)
