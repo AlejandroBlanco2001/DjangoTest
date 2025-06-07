@@ -21,8 +21,6 @@ class Task(TimeStampedModel, SoftDeleteModel):
 
     task = TaskManager()
 
-    # The combination of the title and owner should be unique
-    pk = models.CompositePrimaryKey("title", "owner_id")
     title = models.CharField(null=False, max_length=255) 
     description = models.TextField(null=False)
     is_completed = models.BooleanField(default=False)
