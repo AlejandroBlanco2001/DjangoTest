@@ -51,7 +51,11 @@ class CreateTaskLabelSerializer(serializers.ModelSerializer):
     def save(self, validated_data: dict) -> Task:
         task = validated_data['task']
         label = validated_data['label']
-        task.label  .add(label)
+
+        if task.label.filter(id=label.id).exists():
+            raise serializers.ValidationError({'label': 'This label is already associated with this task'})
+
+        task.label.add(label)
         task.save()
         return task
 
