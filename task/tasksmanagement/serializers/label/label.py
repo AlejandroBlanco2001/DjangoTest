@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from tasksmanagement.models import Label
-from django.contrib.auth.models import User
 
 class DetailedLabelSerializer(serializers.ModelSerializer):
     """ Serializer for detailed label information """

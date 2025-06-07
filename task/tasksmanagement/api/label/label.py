@@ -10,7 +10,7 @@ from rest_framework import status
 from django.db.models import QuerySet
 from logging import getLogger
 from django.shortcuts import get_object_or_404
-
+from rest_framework.pagination import PageNumberPagination
 
 logger = getLogger(__name__)
 
@@ -20,14 +20,16 @@ class LabelListCreateAPIView(ListCreateAPIView):
     """
     permission_classes = [IsAuthenticated]
     serializer_class = DetailedLabelSerializer
+    pagination_class = PageNumberPagination
 
     def get_queryset(self) -> QuerySet[Label]:
         return Label.label.user_labels(self.request.user).order_by('name')
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()
-        serializer = DetailedLabelSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        page = self.paginate_queryset(queryset)
+        serializer = DetailedLabelSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
     
     def post(self, request: Request, *args, **kwargs) -> Response:
         context = {

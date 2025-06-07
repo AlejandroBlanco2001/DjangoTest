@@ -10,7 +10,7 @@ from rest_framework import status
 from django.db.models import QuerySet
 from logging import getLogger
 from django.shortcuts import get_object_or_404
-
+from rest_framework.pagination import PageNumberPagination
 
 logger = getLogger(__name__)
 
@@ -19,14 +19,16 @@ class TaskListCreateAPIView(ListCreateAPIView):
     API View to list and create tasks
     """
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self) -> QuerySet[Task]:
         return Task.task.user_tasks(self.request.user).order_by('title')
 
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = self.get_queryset()
-        serializer = DetailedTaskSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        page = self.paginate_queryset(queryset)
+        serializer = DetailedTaskSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
     
     def post(self, request: Request, *args, **kwargs) -> Response:
         context = {
