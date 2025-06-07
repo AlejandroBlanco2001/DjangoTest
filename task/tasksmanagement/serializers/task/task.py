@@ -1,31 +1,24 @@
 from rest_framework import serializers
-from tasksmanagement.serializers import DetailedLabelSerializer
 from tasksmanagement.models import Task, Label
-
-class DetailedTaskSerializer(serializers.ModelSerializer):
-    """ Serializer for detailed label information """
-    pk = serializers.CharField(read_only=True)
-    title = serializers.CharField(read_only=True)
-    description = serializers.CharField(read_only=True)
-    is_completed = serializers.BooleanField(read_only=True)
-    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    created_at = serializers.DateTimeField(read_only=True)
-    updated_at = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Task
-        fields = ['pk', 'title', 'description', 'is_completed', 'owner', 'created_at', 'updated_at']
-        read_only_fields = ['owner', 'created_at', 'updated_at']
+from tasksmanagement.serializers.common import DetailedTaskSerializer, DetailedLabelSerializer
 
 class CreateTaskSerializer(serializers.ModelSerializer):
     """ Serializer for creating a new task """
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     title = serializers.CharField(required=True)
     description = serializers.CharField(required=True)
+    is_completed = serializers.BooleanField(required=False)
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.is_completed = validated_data.get('is_completed', instance.is_completed)
+        instance.save(update_fields=['title', 'description', 'is_completed'])
+        return instance
 
     class Meta:
         model = Task
-        fields = ['title', 'description', 'owner']
+        fields = ['title', 'description', 'owner', 'is_completed']
         read_only_fields = ['owner']
 
 class DetailedTaskLabelSerializer(DetailedTaskSerializer):

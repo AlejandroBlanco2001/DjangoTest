@@ -1,18 +1,6 @@
 from rest_framework import serializers
+from tasksmanagement.serializers.common import DetailedLabelSerializer, DetailedTaskSerializer
 from tasksmanagement.models import Label
-
-class DetailedLabelSerializer(serializers.ModelSerializer):
-    """ Serializer for detailed label information """
-    pk = serializers.CharField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    created_at = serializers.DateTimeField(read_only=True)
-    updated_at = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Label
-        fields = ['pk', 'name', 'owner', 'created_at', 'updated_at']
-        read_only_fields = ['owner', 'created_at', 'updated_at']
 
 class CreateLabelSerializer(serializers.ModelSerializer):
     """ Serializer for creating a new label """
@@ -23,3 +11,12 @@ class CreateLabelSerializer(serializers.ModelSerializer):
         model = Label
         fields = ['name', 'owner']
         read_only_fields = ['owner']
+
+class DetailedLabelTaskSerializer(DetailedLabelSerializer):
+    """ Serializer for detailed task label information """
+    tasks = DetailedTaskSerializer(many=True)
+
+    class Meta:
+        model = Label
+        fields = ['pk', 'name', 'owner', 'created_at', 'updated_at', 'tasks']
+        read_only_fields = ['owner', 'created_at', 'updated_at', 'tasks']

@@ -1,10 +1,11 @@
-from .label import DetailedLabelSerializer, CreateLabelSerializer
+from .label import CreateLabelSerializer, DetailedLabelTaskSerializer
 from .task import (
-    DetailedTaskSerializer,
     CreateTaskSerializer,
     DetailedTaskLabelSerializer,
     CreateTaskLabelSerializer,
 )
+
+from .common import DetailedLabelSerializer, DetailedTaskSerializer
 
 __all__ = [
     "DetailedLabelSerializer",
@@ -13,4 +14,5 @@ __all__ = [
     "CreateTaskSerializer",
     "DetailedTaskLabelSerializer",
     "CreateTaskLabelSerializer",
+    "DetailedLabelTaskSerializer",
 ]

@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from tasksmanagement.api.task.permissions import CanManipulateTask
-from tasksmanagement.models import Task, Label
+from tasksmanagement.models import Task
 from rest_framework.request import Request
 from tasksmanagement.serializers import DetailedTaskSerializer, CreateTaskSerializer, DetailedTaskLabelSerializer, CreateTaskLabelSerializer
 from rest_framework.response import Response
@@ -81,7 +81,8 @@ class TaskDetailAPIView(RetrieveUpdateDestroyAPIView):
     def put(self, request: Request, *args, **kwargs) -> Response:
         task = self.get_object()
 
-        serializer = DetailedTaskSerializer(task, data=request.data, partial=True)
+        serializer = CreateTaskSerializer(task, data=request.data, partial=True)
+
         try:
             if serializer.is_valid():
                 serializer.update(task, request.data)

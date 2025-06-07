@@ -1,10 +1,10 @@
 from django.db import IntegrityError
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from tasksmanagement.api.label.permissions import CanManipulateLabel
 from tasksmanagement.models import Label
 from rest_framework.request import Request
-from tasksmanagement.serializers import DetailedLabelSerializer, CreateLabelSerializer
+from tasksmanagement.serializers import DetailedLabelSerializer, CreateLabelSerializer, DetailedLabelTaskSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import QuerySet
@@ -94,3 +94,20 @@ class LabelDetailAPIView(RetrieveUpdateDestroyAPIView):
         except Exception as e:
             logger.error(f'Error updating label: {e}')
             return Response({'There was an error updating the label, please try again later'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TaskLabelListAPIView(ListAPIView):
+    """
+    API View to list and create labels for a task
+    """
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self) -> QuerySet[Label]:
+        return Label.objects.user_labels(self.request.user).prefetch_related('tasks').order_by('name')
+    
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        serializer = DetailedLabelTaskSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
