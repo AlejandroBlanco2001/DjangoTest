@@ -1,0 +1,17 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models import QuerySet
+from ..models import Task
+
+class TaskManager(models.Manager):
+    """ Manager for the Task model """
+    
+    def user_tasks(self, user: User) -> QuerySet[Task]:
+        """Method in charge to obtain all the tasks for a given user
+        Args:
+            user: User object
+        Returns:
+            QuerySet[Task]: QuerySet of Task objects
+        """
+        return self.filter(owner=user)
+    

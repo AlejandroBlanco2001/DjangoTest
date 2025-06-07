@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from label import Label
+from managers import TaskManager
 
 '''
  Task: This model should have a title, description, completion status, owner, and a many-to-many relationship to Label.
 ''' 
 class Task(models.Model):
+
+    task = TaskManager()
     title = models.CharField(null=False, max_length=255) 
     description = models.TextField(null=False)
     is_completed = models.BooleanField(default=False)
