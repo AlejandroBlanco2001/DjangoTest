@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from typing import TYPE_CHECKING
+from tasksmanagement.managers.base import BaseManager
 
-class LabelManager(models.Manager):
+class LabelManager(BaseManager):
     """ Manager for the Label model """
 
     if TYPE_CHECKING:

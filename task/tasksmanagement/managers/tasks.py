@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from typing import TYPE_CHECKING
+from tasksmanagement.managers.base import BaseManager
 
-
-class TaskManager(models.Manager):
+class TaskManager(BaseManager):
     """ Manager for the Task model """
 
     if TYPE_CHECKING:
